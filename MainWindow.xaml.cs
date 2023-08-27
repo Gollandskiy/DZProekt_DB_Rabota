@@ -51,7 +51,7 @@ namespace DZProekt
         {
             using SqlCommand command = new();
             command.Connection = connection;
-            command.CommandText = "SELECT * FROM GroupUser";
+            command.CommandText = "SELECT * FROM GroupUser WHERE DateDelete is NULL";
             try
             {
                 using SqlDataReader reader = command.ExecuteReader();
@@ -149,14 +149,72 @@ namespace DZProekt
             {
                 if (item.Content is UserGroups group)
                 {
-                    MessageBox.Show(group.Name);
+                    OknoList dialog = new(group);
+                    bool? dialogRes = dialog.ShowDialog();
+                    if (dialogRes == false)
+                    {
+                        if (dialog.UserGroup2 == null)
+                        {
+                            if (DeleteProductGroup(group))
+                            {
+                                GroupUser.Remove(group);
+                                MessageBox.Show("Удалены");
+                            }
+                        }
+                    }
+                    else if (dialogRes == true)
+                    {
+                        if (SaveProductGroup(group))
+                        {
+                            MessageBox.Show("Сохранено");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Проблема с БД");
+                        }
+                    }
+
                 }
-                //var group = item.Content as ProductGroups;
+                //var group = item.Content as GroupUser;
                 //if (group is not null)
                 //{
                 //
                 //}
+
             }
         }
+        private bool SaveProductGroup(UserGroups group)
+        {
+            using SqlCommand cmd = new();
+            cmd.Connection = connection;
+            cmd.CommandText = $"UPDATE GroupUser SET Name = N'{group.Name}',Pass = N'{group.Pass}',Picture = N'{group.Picture}' Where Id = '{group.Id}'";
+            try
+            {
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Title = ex.Message;
+                return false;
+            }
+        }
+        private bool DeleteProductGroup(UserGroups group)
+        {
+            using SqlCommand cmd = new();
+            cmd.Connection = connection;
+            cmd.CommandText = $"UPDATE GroupUser SET DateDelete = CURRENT_TIMESTAMP Where Id = '{group.Id}'";
+            try
+            {
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Title = ex.Message;
+                return false;
+            }
+        }
+
     }
 }

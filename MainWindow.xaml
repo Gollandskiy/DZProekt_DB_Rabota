@@ -43,22 +43,22 @@
             </Button>
         </StackPanel>
         <StackPanel
-                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
+                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
             <Label Content="Group Content"/>
             <ListView ItemsSource="{Binding GroupUser}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn
-                            Header="Id" Width ="235"
+                            Header="Id" Width ="100"
                             DisplayMemberBinding="{Binding Path=Id}"/>
                         <GridViewColumn
-                                Header="Name" Width ="150"
+                                Header="Name" Width ="50"
                             DisplayMemberBinding="{Binding Path=Name}"/>
                         <GridViewColumn
-                                Header="Pass" Width ="150" 
+                                Header="Pass" Width ="50" 
                             DisplayMemberBinding="{Binding Path=Pass}"/>
                         <GridViewColumn
-                                Header="Picture" Width ="150"
+                                Header="Picture" Width ="50"
                             DisplayMemberBinding="{Binding Path=Picture}"/>
                     </GridView>
                 </ListView.View>
