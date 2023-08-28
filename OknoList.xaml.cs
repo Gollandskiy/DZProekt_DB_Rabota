@@ -43,7 +43,11 @@ namespace DZProekt
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
 
-            DialogResult = true;
+            if (IsValidData(UserGroup2))
+            {
+                DialogResult = true;
+                Close();
+            }
         }
 
 
@@ -53,5 +57,33 @@ namespace DZProekt
             UserGroup2 = null!;
             Close();
         }
+        
+        private bool IsValidData(UserGroups group)
+        {
+            if (string.IsNullOrWhiteSpace(group.Name) || string.IsNullOrWhiteSpace(group.Pass) || string.IsNullOrWhiteSpace(group.Picture))
+            {
+                MessageBox.Show("Поля не могут быть пустыми");
+                return false;
+            }
+            else if (!IsValidPictureFormat(group.Picture))
+            {
+                MessageBox.Show("Неверный формат изображения. Допустимые форматы: .png и .jpeg");
+                return false;
+            }
+            else
+                {
+                    return true;
+                }
+            }
+        private bool IsValidPictureFormat(string picture)
+        {
+            if (!picture.EndsWith(".png", StringComparison.OrdinalIgnoreCase) &&
+                !picture.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
-}
+ }
