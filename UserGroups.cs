@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DZProekt
 {
-   public class UserGroups
+   public record UserGroups
     {
         public Guid Id { get; set; }
         public String Name { get; set; } = null;
